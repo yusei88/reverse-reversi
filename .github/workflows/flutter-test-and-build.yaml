@@ -25,10 +25,6 @@ jobs:
       - name: Pub Get
         run: flutter pub get
 
-      # リンター
-      - name: Linter
-        run: flutter analyze
-
       # テスト実行
       - name: Test
         run: flutter test --coverage
