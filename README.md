@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/github/yusei88/reverse-reversi/badge.svg?branch=main)](https://coveralls.io/github/yusei88/reverse-reversi?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/yusei88/reverse-reversi/badge.svg)](https://coveralls.io/github/yusei88/reverse-reversi)
 
 # reverse_reversi
 
