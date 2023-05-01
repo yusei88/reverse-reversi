@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/github/yusei88/reverse-reversi/badge.svg?branch=main)](https://coveralls.io/github/yusei88/reverse-reversi?branch=main)
+
 # reverse_reversi
 
 A new innovative reversi project.
