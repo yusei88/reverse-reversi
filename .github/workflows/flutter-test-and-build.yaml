@@ -2,7 +2,7 @@ name: Test And Build Archive
 on:
   pull_request:
     branches:
-      - feature/*
+      - feature/**
 jobs:
   test:
     name: Check the source code
