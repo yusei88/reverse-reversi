@@ -27,7 +27,11 @@ jobs:
 
       # flutter channelをstableに変更
       - name: Set Channel Stable
-        run: flutter channle stabel
+        run: flutter channel stabel
+
+      # Flutter Analyze実行
+      - name: Analyze
+        run: flutter analyze
 
       # テスト実行
       - name: Test
