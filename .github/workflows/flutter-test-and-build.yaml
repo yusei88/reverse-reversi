@@ -1,4 +1,4 @@
-name: Test And Build Archive
+name: CICD
 on:
   pull_request:
     branches:
@@ -42,3 +42,4 @@ jobs:
         if: always()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
+  build:
