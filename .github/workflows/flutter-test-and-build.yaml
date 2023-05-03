@@ -1,0 +1,44 @@
+name: CICD
+on:
+  pull_request:
+    branches:
+      - feature/**
+jobs:
+  test:
+    name: Check the source code
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリからソースをダウンロード
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Flutter環境構築
+      # Flutter のインストール clone がはやい
+      - name: Install Flutter
+        run: git clone https://github.com/flutter/flutter.git -b 3.7.12 --depth 1
+
+      # PATH を通す
+      - name: Add path
+        run: echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
+
+      # 依存ライブラリの取得
+      - name: Pub Get
+        run: flutter pub get
+
+      # テスト実行
+      - name: Test
+        run: flutter test --coverage
+
+      # カバレッジ可視化のため Coverallsにアップロード
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+
+      # カバレッジ可視化のため Codecovにアップロード
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+
+      # パイプラインの完了をDiscordに通知
+      - uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
