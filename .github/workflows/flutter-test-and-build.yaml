@@ -44,7 +44,7 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
 
   buildApk:
-    name: Check the source code
+    name: Build & Deploy AOS
     runs-on: ubuntu-latest
     steps:
       # リポジトリからソースをダウンロード
@@ -75,10 +75,14 @@ jobs:
         run:
           echo $GOOGLE_SERVICE | base64 --decode > ./android/app/google-services.json
 
+      # build apk
+      - name: build apk
+        run: flutter build apk --release
+
       # Firebase AppDistributionでの配信
       - name: Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
         with:
           appId: ${{ secrets.FIREBASE_AOS_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.GOOGLE_SERVICE }}
-          file: ./build/app/outputs/apk/release/app-release.apk
+          file: ./build/app/outputs/flutter-apk/app-release.apk
