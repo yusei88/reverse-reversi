@@ -64,12 +64,19 @@ jobs:
       - name: Pub Get
         run: flutter pub get
 
-      # google-serviceのデコード
-      - name: Translate secrets of base64 into json
+      # google-service.jsonのデコード
+      - name: Translate google-service.json of base64 into json
         env:
           GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
         run:
           echo $GOOGLE_SERVICE | base64 --decode > ./android/app/google-services.json
+
+      # credential.jsonのデコード
+      - name: Translate credential.json of base64 into json
+        env:
+          CREDENTIAL: ${{ secrets.CREDENTIAL }}
+        run:
+          echo $CREDENTIAL | base64 --decode > credential.json
 
       # build apk
       - name: build apk
@@ -80,5 +87,5 @@ jobs:
         uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
         with:
           appId: ${{ secrets.FIREBASE_AOS_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL }}
+          serviceCredentialsFileContent: credential.json
           file: ./build/app/outputs/flutter-apk/app-release.apk
