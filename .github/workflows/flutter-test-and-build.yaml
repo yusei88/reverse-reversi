@@ -25,6 +25,10 @@ jobs:
       - name: Pub Get
         run: flutter pub get
 
+      # flutter channelをstableに変更
+      - name: Set Channel Stable
+        run: flutter channle stabel
+
       # テスト実行
       - name: Test
         run: flutter test --coverage
