@@ -42,4 +42,43 @@ jobs:
         if: always()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
-  build:
+
+  build apk:
+    name: Check the source code
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリからソースをダウンロード
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Flutter環境構築
+      # Flutter のインストール clone がはやい
+      - name: Install Flutter
+        run: git clone https://github.com/flutter/flutter.git -b 3.7.12 --depth 1
+
+      # PATH を通す
+      - name: Add path
+        run: echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
+
+      # 依存ライブラリの取得
+      - name: Pub Get
+        run: flutter pub get
+
+      # build apk
+      - name: build apk
+        run: flutter build apk --release
+
+      # google-serviceのデコード
+      - name: Translate secrets of base64 into json
+        env:
+          GOOGLE_SERVICE: ${{ secrets.ANDROID_GOOGLE_SERVICE }}
+        run:
+          echo $GOOGLE_SERVICE | base64 --decode > ./android/app/google-services.json
+
+      # Firebase AppDistributionでの配信
+      - name: Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.5.0
+        with:
+          appId: ${{ secrets.FIREBASE_DEV_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.GOOGLE_SERVICE }}
+          file: ./build/app/outputs/apk/release/app-release.apk
