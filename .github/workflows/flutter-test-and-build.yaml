@@ -40,3 +40,9 @@ jobs:
       # カバレッジ可視化のため Codecovにアップロード
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
+
+      # パイプラインの完了をDiscordに通知
+      - uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
