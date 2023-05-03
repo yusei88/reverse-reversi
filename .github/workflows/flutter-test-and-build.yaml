@@ -43,7 +43,7 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
 
-  build apk:
+  buildApk:
     name: Check the source code
     runs-on: ubuntu-latest
     steps:
